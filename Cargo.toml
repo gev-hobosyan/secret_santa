@@ -1,0 +1,9 @@
+[package]
+name = "secret_santa"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+sea-orm = { version = "2.0.4", features = [ "sqlx-sqlite", "runtime-tokio", "macros" ] }
+teloxide = { version = "0.17.0", features = [ "macros" ] }
+tokio = { version = "1.54.1", features = [ "macros" ] }
