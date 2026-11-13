@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use sea_orm::{Database, DatabaseConnection};
 use crate::types::ActiveGame;
 
+#[derive(Debug)]
 pub struct AppState {
     pub db: DatabaseConnection,
     pub active_games: HashMap<i64, ActiveGame>
