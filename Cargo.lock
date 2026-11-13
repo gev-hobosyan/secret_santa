@@ -2487,6 +2487,7 @@ version = "0.1.0"
 dependencies = [
  "rand 0.10.3",
  "sea-orm",
+ "serde_json",
  "teloxide",
  "tokio",
 ]

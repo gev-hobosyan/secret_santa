@@ -3,6 +3,8 @@ mod admin_command;
 pub mod types;
 mod entity;
 mod on_message;
+pub mod translate;
+mod bot_status_change;
 
 use std::sync::Arc;
 use teloxide::{dptree, Bot};
@@ -12,6 +14,7 @@ use teloxide::types::Update;
 use tokio::sync::Mutex;
 use crate::admin_command::{handle_admin_commands, AdminCommand};
 use crate::app_state::AppState;
+use crate::bot_status_change::handle_bot_status_change;
 use crate::on_message::handle_message;
 
 #[tokio::main]
@@ -20,14 +23,16 @@ async fn main() {
 
     let state = Arc::new(Mutex::new(AppState::new().await));
 
-    let handler = Update::filter_message()
-        .branch(dptree::entry()
-            .filter_command::<AdminCommand>()
-            .filter(|msg: Message| msg.chat.is_group() || msg.chat.is_supergroup())
-            .endpoint(handle_admin_commands))
-        .branch(dptree::entry()
-            .filter(|msg: Message| msg.chat.is_group() || msg.chat.is_supergroup())
-            .endpoint(handle_message));
+    let handler = dptree::entry()
+        .branch(Update::filter_my_chat_member().endpoint(handle_bot_status_change))
+        .branch(Update::filter_message()
+            .branch(dptree::entry()
+                .filter_command::<AdminCommand>()
+                .filter(|msg: Message| msg.chat.is_group() || msg.chat.is_supergroup())
+                .endpoint(handle_admin_commands))
+            .branch(dptree::entry()
+                .filter(|msg: Message| msg.chat.is_group() || msg.chat.is_supergroup())
+                .endpoint(handle_message)));
 
     Dispatcher::builder(bot, handler)
         .dependencies(dptree::deps![state])

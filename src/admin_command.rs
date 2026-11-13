@@ -5,9 +5,10 @@ use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, Set, Tra
 use teloxide::macros::BotCommands;
 use teloxide::prelude::*;
 use tokio::sync::{Mutex};
-use crate::app_state::AppState;
+use crate::app_state::{AppState, Lang};
 use crate::entity::{game, game_record, player};
 use crate::entity::prelude::{Game, GameRecord, Player};
+use crate::translate::Translate;
 use crate::types::ActiveGame;
 
 #[derive(Debug, Clone, BotCommands)]
@@ -15,7 +16,9 @@ use crate::types::ActiveGame;
 pub enum AdminCommand {
     Start,
     Cancel,
-    Finish
+    Finish,
+    Info,
+    Lang(String)
 }
 
 pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, state: Arc<Mutex<AppState>>) -> ResponseResult<()> {
@@ -29,6 +32,7 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
     }
 
     let chat_id = msg.chat.id;
+    let t = Translate::init("messages.json").unwrap();
 
     match cmd {
         AdminCommand::Start => {
@@ -105,6 +109,17 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
                     bot.send_message(chat_id, "Oops! Something happened. Please try again in a bit").await?;
                 }
             }
+        }
+        AdminCommand::Info => {
+            let state = state.lock().await;
+            let lang = String::from(state.langs.get(&chat_id.0).unwrap_or(&Lang::EN).clone());
+            
+            bot.send_message(chat_id, t.get(&lang, "info")).await?;
+        }
+        AdminCommand::Lang(lang) => {
+            let mut state = state.lock().await;
+            
+            state.langs.insert(chat_id.0, Lang::from(&lang));
         }
     }
 
