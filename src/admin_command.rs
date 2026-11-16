@@ -1,7 +1,7 @@
 use std::sync::Arc;
 use rand::prelude::{IteratorRandom, SliceRandom};
 use rand::rngs::StdRng;
-use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, Set, TransactionTrait};
+use sea_orm::{ActiveModelTrait, ColIdx, DatabaseConnection, DbErr, EntityTrait, Set, TransactionTrait};
 use teloxide::macros::BotCommands;
 use teloxide::prelude::*;
 use tokio::sync::{Mutex};
@@ -26,25 +26,31 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
 
     let Some(user) = &msg.from else { return Ok(()) };
 
+    let t = Translate::init("messages.json").unwrap();
+    let _state = state.lock().await;
+    let lang = String::from(_state.langs.get(&msg.chat.id.0).unwrap_or(&Lang::EN).clone());
+    drop(_state);
+
     if !is_admin(&bot, &msg).await? {
-        bot.send_message(msg.chat.id, "This command is reserved only for admins").await?;
+        bot.send_message(msg.chat.id, t.get(&lang, "admins_only")).await?;
         return Ok(())
     }
 
     let chat_id = msg.chat.id;
-    let t = Translate::init("messages.json").unwrap();
 
     match cmd {
         AdminCommand::Start => {
             let mut state = state.lock().await;
 
             if is_game_active(&state, chat_id.0) {
-                bot.send_message(chat_id, "You are already playing").await?;
+                let game = state.active_games.get(&chat_id.0).unwrap();
+
+                bot.send_message(chat_id, t.with_args(&lang, "already_playing", vec![format!("{}", game.players.len()).as_str(), &game.format_players()])).await?;
                 return Ok(())
             }
 
             if is_game_in_db(&state, chat_id.0).await {
-                bot.send_message(chat_id, "You are already playing").await?;
+                bot.send_message(chat_id, t.get(&lang, "already_playing")).await?;
                 return Ok(())
             };
 
@@ -54,9 +60,7 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
 
             game.players.insert(user.id.0 as i64, user.username.clone().unwrap_or("".to_string()));
 
-            bot.edit_message_text(chat_id, message.id, format!("Game started\n\
-            Players\n\
-            @{}", user.username.clone().unwrap_or("".to_string())).as_str()).await?;
+            bot.edit_message_text(chat_id, message.id, t.with_args(&lang, "registration_open", vec!["1", format!("@{}", user.username.clone().unwrap_or("".to_string())).as_str()])).await?;
 
             state.active_games.insert(chat_id.0, game);
         }
@@ -64,7 +68,7 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
             let mut state = state.lock().await;
 
             if !is_game_active(&state, chat_id.0) {
-                bot.send_message(chat_id, "You aren't playing").await?;
+                bot.send_message(chat_id, t.get(&lang, "not_playing")).await?;
                 return Ok(())
             }
 
@@ -74,14 +78,14 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
 
             state.active_games.remove(&chat_id.0);
 
-            bot.send_message(chat_id, "Goodbye").await?;
+            bot.send_message(chat_id, t.get(&lang, "canceled")).await?;
         }
         AdminCommand::Finish => {
             let (game, db) = {
                 let mut state = state.lock().await;
                 let Some(game) = state.active_games.remove(&chat_id.0) else {
                     drop(state);
-                    bot.send_message(chat_id, "You aren't playing").await?;
+                    bot.send_message(chat_id, t.get(&lang, "not_playing")).await?;
                     return Ok(())
                 };
                 (game, state.db.clone())
@@ -90,30 +94,31 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
             let state = state.lock().await;
 
             if is_game_in_db(&state, chat_id.0).await {
-                bot.send_message(chat_id, "You are already playing").await?;
+                bot.send_message(chat_id, t.get(&lang, "already_playing")).await?;
                 return Ok(())
             };
 
 
             bot.delete_message(chat_id, game.message_id).await?;
 
+            bot.send_message(chat_id, t.with_args(&lang, "registration_closed", vec![format!("{}", game.players.len()).as_str(), game.format_players().as_str()])).await?;
+
             match save_game(&db, chat_id.0, &game).await {
                 Ok(pairs) => {
                     for (giver, receiver) in pairs {
-                        bot.send_message(ChatId(giver.id), format!("Hey you will be playing with @{}", receiver.username).as_str()).await;
+                        let err = bot.send_message(ChatId(giver.id), t.with_args(&lang, "whom_to_gift", vec![receiver.username.as_str()])).await;
+
+                        println!("{err:?}");
                     }
                 }
                 Err(err) => {
                     println!("{err:?}");
 
-                    bot.send_message(chat_id, "Oops! Something happened. Please try again in a bit").await?;
+                    bot.send_message(chat_id, t.get(&lang, "error")).await?;
                 }
             }
         }
         AdminCommand::Info => {
-            let state = state.lock().await;
-            let lang = String::from(state.langs.get(&chat_id.0).unwrap_or(&Lang::EN).clone());
-            
             bot.send_message(chat_id, t.get(&lang, "info")).await?;
         }
         AdminCommand::Lang(lang) => {

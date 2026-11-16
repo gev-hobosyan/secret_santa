@@ -12,14 +12,10 @@ pub async fn handle_message(bot: Bot, msg: Message, state: Arc<Mutex<AppState>>)
     let mut state = state.lock().await;
 
     if !is_game_active(&state, msg.chat.id.0) || msg.text().is_none() {
-        println!("stop 1");
         return Ok(())
     } else if msg.text().unwrap().replace(" ", "") != "+" {
-        println!("stop 2");
         return Ok(())
     }
-
-    println!("stop 3");
 
     let Some(user) = &msg.from else { return Ok(()) };
 
@@ -31,7 +27,7 @@ pub async fn handle_message(bot: Bot, msg: Message, state: Arc<Mutex<AppState>>)
         bot.send_message(user.id, "You are playing already").await?;
     }
 
-    game.players.insert(user.id.0 as i64, user.username.clone().unwrap());
+    game.players.insert(user.id.0 as i64, user.username.clone().unwrap_or(user.first_name.clone()));
 
     let mut players = "".to_string();
 

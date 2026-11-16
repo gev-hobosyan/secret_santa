@@ -1,8 +1,24 @@
 {
   "en": {
-    "info": "🎅🏻Secret Santa bot\n\nI'll randomly pair everyone in the group, so each person buys a gift for someone else.\n\n⚠️Before starting please make me an admin so I can work properly⚠️\n\nHow to play:\n\t\t\t\t1. Send `/start` to me in a private message, or I won't be able to message you!\n\t\t\t\t2. An admin will start the game and everyone sends `+` in the chat.\n\t\t\t\t3. After the admin closes the registration I will tell each player who they're gifting to.\n\t\t\t\t4. Buy a gift and keep it secret until the reveal.🎁\n\nWishlist\n\t\t\t\tSend `/wishlist` with all the things you would like to get for Christmas and I'll inform your Santa\n\nHave fun🎄"
+    "info": "🎅🏻Secret Santa bot\n\nI'll randomly pair everyone in the group, so each person buys a gift for someone else.\n\n⚠️Before starting please make me an admin so I can work properly⚠️\n\nHow to play:\n\t\t\t\t1. Send `/start` to me in a private message, or I won't be able to message you!\n\t\t\t\t2. An admin will start the game and everyone sends `+` in the chat.\n\t\t\t\t3. After the admin closes the registration I will tell each player who they're gifting to.\n\t\t\t\t4. Buy a gift and keep it secret until the reveal.🎁\n\nWishlist\n\t\t\t\tSend `/wishlist` with all the things you would like to get for Christmas and I'll inform your Santa\n\nHave fun🎄",
+    "registration_open": "⏳ Registration is open!\n\nSend \"+\" to take part if you haven’t yet.\n\n🎅🏻 Players so far: {}\n\n{}",
+    "already_playing": "🎅🏻You are already playing Secret Santa!\n\nYou can start a new game once the current one is over.",
+    "canceled": "❌ Registration has been cancelled.\n\nNo Secret Santa this time. You can start a new game whenever you’re ready!",
+    "registration_closed": "🎄Registration is closed. Let the game begin!\n\n🎅🏻Players ({}):\n\n{}\n\nI’ve just sent each of you a private message with the name of the person you’re gifting to.🎁\n\nDidn’t get a message? Send `/start` to me in a private chat and ask an admin to resend it.",
+    "whom_to_gift": "🎅🏻You are the Secret Santa for @{}!\n\nKeep it a secret until the big reveal.",
+    "admins_only": "⚠️Sorry, this command is only available to group admins.",
+    "not_playing": "❌You aren’t playing.",
+    "error": "❗️Oops! Something went wrong. Please try again in a bit.❗️"
   },
   "am": {
-    "info": "🎅🏻Secret Santa բոտ\n\nԵս պատահականորեն զույգերի կբաժանեմ խմբի բոլոր մասնակիցներին, և յուրաքանչյուրը գաղտնի նվեր պետք է գնի մեկ ուրիշի համար:\n\n⚠️Սկսելուց առաջ կխնդրեմ ինձ ադմին դարձնեք, որպեսզի կարողանամ անցկացնել այս խաղը:⚠️\n\nԻնչպես խաղալ:\n\t\t\t\t1. Ինձ անձնական հաղորդագրությամբ ուղարկիր `/start`, այլապես չեմ կարող քեզ գրել։\n\t\t\t\t2. Ադմինը սկսում է խաղը, իսկ բոլորը ուղարկում են \"+\"։\n\t\t\t\t3. Երբ ադմինը փակի գրանցումը, ես անձնական հաղորդագրությամբ կասեմ յուրաքանչյուրին, թե ում համար պետք է նվեր գնի։\n\t\t\t\t4. Գնիր նվերը և գաղտնի պահիր մինչև հանձնումը։🎁\n\nWishlist\n\t\t\t\tԻնձ անձնական հաղորդագրությամբ ուղարկիր `/wishlist` քո ցուցակը ավելացնելու կամ փոխելու համար։ Ես կտեղեկացնեմ քո Secret Santa-ին թե ինչ կուզես ստանալ այս նոր տարի:\n\nՀաճելի խաղ և տոնական տրամադրություն։🎄"
+    "info": "🎅🏻Secret Santa բոտ\n\nԵս պատահականորեն զույգերի կբաժանեմ խմբի բոլոր մասնակիցներին, և յուրաքանչյուրը գաղտնի նվեր պետք է գնի մեկ ուրիշի համար:\n\n⚠️Սկսելուց առաջ կխնդրեմ ինձ ադմին դարձնեք, որպեսզի կարողանամ անցկացնել այս խաղը:⚠️\n\nԻնչպես խաղալ:\n\t\t\t\t1. Ինձ անձնական հաղորդագրությամբ ուղարկիր `/start`, այլապես չեմ կարող քեզ գրել։\n\t\t\t\t2. Ադմինը սկսում է խաղը, իսկ բոլորը ուղարկում են \"+\"։\n\t\t\t\t3. Երբ ադմինը փակի գրանցումը, ես անձնական հաղորդագրությամբ կասեմ յուրաքանչյուրին, թե ում համար պետք է նվեր գնի։\n\t\t\t\t4. Գնիր նվերը և գաղտնի պահիր մինչև հանձնումը։🎁\n\nWishlist\n\t\t\t\tԻնձ անձնական հաղորդագրությամբ ուղարկիր `/wishlist` քո ցուցակը ավելացնելու կամ փոխելու համար։ Ես կտեղեկացնեմ քո Secret Santa-ին թե ինչ կուզես ստանալ այս նոր տարի:\n\nՀաճելի խաղ և տոնական տրամադրություն։🎄",
+    "registration_open": "⏳ Գրանցումը բացված է։\n\nԵթե դեռ չեք միացել, ուղարկեք \"+\"։\n\n🎅🏻 Արդեն գրանցվել է {} մասնակից։\n\n{}",
+    "already_playing": "🎅🏻Դուք արդեն խախում եք Secret Santa:\n\nՆոր խաղ կարող եք սկսել, երբ այս մեկը ավարտվի:",
+    "canceled": "❌ Գրանցումը չեղարկվել է։\n\nԱյս անգամ Secret Santa չի լինի։ Նոր խաղ կարող եք սկսել ցանկացած պահի։",
+    "registration_closed": "🎄Գրանցումն ավարտվեց։ Խաղը սկսվում է։\n\n🎅🏻Մասնակիցներ ({}).\n\n{}\n\nԵս յուրաքանչյուր մասնակցին անձնական հաղորդագրություն եմ ուղարկել՝ այն մարդու անունով, ում համար պետք է նվեր գնեք։🎁\n\nՀաղորդագրություն չե՞ք ստացել։ Ինձ անձնական հաղորդագրությամբ ուղարկեք `/start` և խնդրեք ադմինին՝ կրկին ուղարկել։",
+    "whom_to_gift": "🎅🏻Դու @{}-ի գաղտնի Ձմեռ պապն ես։\n\nԳաղտնիքը պահիր մինչև նվերների հանձնումը։",
+    "admin_only": "⚠️Կներեք, այս հրամանը հասանելի է միայն խմբի ադմիններին։",
+    "not_playing": "❌Դուք դեռ չեք խաղում:",
+    "error": "❗️Վայ։ Ինչ-որ սխալ եղավ։ Խնդրում եմ փորձեք մի փոքր անց։❗️"
   }
 }
