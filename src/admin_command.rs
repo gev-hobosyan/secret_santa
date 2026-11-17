@@ -1,7 +1,7 @@
 use std::sync::Arc;
-use rand::prelude::{IteratorRandom, SliceRandom};
+use rand::prelude::SliceRandom;
 use rand::rngs::StdRng;
-use sea_orm::{ActiveModelTrait, ColIdx, DatabaseConnection, DbErr, EntityTrait, Set, TransactionTrait};
+use sea_orm::{ActiveModelTrait, DatabaseConnection, DbErr, EntityTrait, Set, TransactionTrait};
 use teloxide::macros::BotCommands;
 use teloxide::prelude::*;
 use tokio::sync::{Mutex};
@@ -158,7 +158,7 @@ async fn save_game(db: &DatabaseConnection, chat_id: i64, game: &ActiveGame) -> 
 
     let mut rng: StdRng = rand::make_rng();
 
-    let mut givers = game.players.clone();
+    let givers = game.players.clone();
 
     let pairs: Vec<(i64, i64)> = {
         let mut ids: Vec<i64> = givers.keys().copied().collect();
