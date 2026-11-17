@@ -35,7 +35,7 @@ impl From<Lang> for String {
 
 impl AppState {
     pub async fn new() -> Self {
-        let db = Database::connect("sqlite://secret.sqlite?mode=rwc").await.unwrap();
+        let db = Database::connect("sqlite://app.sqlite?mode=rwc").await.unwrap();
         let active_games = HashMap::new();
         let langs = HashMap::new();
         
