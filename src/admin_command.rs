@@ -22,7 +22,7 @@ pub enum AdminCommand {
 }
 
 pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, state: Arc<Mutex<AppState>>) -> ResponseResult<()> {
-    bot.delete_message(msg.chat.id, msg.id).await?;
+    let _ = bot.delete_message(msg.chat.id, msg.id).await;
 
     let Some(user) = &msg.from else { return Ok(()) };
 
@@ -91,6 +91,18 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
                 (game, state.db.clone())
             };
 
+            if game.players.len() <= 2 {
+                let mut state = state.lock().await;
+                // let message = bot.send_message(chat_id, t.with_args(&lang, "registration_open", vec![&format!("{}", game.players.len()), &game.format_players()])).await?;
+                // let mut game = game.clone();
+                // game.message_id = message.id;
+                state.active_games.insert(chat_id.0, game);
+
+                bot.send_message(chat_id, t.get(&lang, "not_enough")).await?;
+
+                return Ok(())
+            }
+
             let state = state.lock().await;
 
             if is_game_in_db(&state, chat_id.0).await {
@@ -98,13 +110,12 @@ pub async fn handle_admin_commands(bot: Bot, msg: Message, cmd: AdminCommand, st
                 return Ok(())
             };
 
-
             bot.delete_message(chat_id, game.message_id).await?;
-
-            bot.send_message(chat_id, t.with_args(&lang, "registration_closed", vec![format!("{}", game.players.len()).as_str(), game.format_players().as_str()])).await?;
 
             match save_game(&db, chat_id.0, &game).await {
                 Ok(pairs) => {
+                    bot.send_message(chat_id, t.with_args(&lang, "registration_closed", vec![format!("{}", game.players.len()).as_str(), game.format_players().as_str()])).await?;
+
                     for (giver, receiver) in pairs {
                         let err = bot.send_message(ChatId(giver.id), t.with_args(&lang, "whom_to_gift", vec![receiver.username.as_str()])).await;
 
@@ -152,10 +163,6 @@ async fn is_game_in_db(state: &AppState, chat_id: i64) -> bool {
 }
 
 async fn save_game(db: &DatabaseConnection, chat_id: i64, game: &ActiveGame) -> Result<Vec<(player::Model, player::Model)>, DbErr> {
-    if game.players.len() < 2 {
-        return Ok(Vec::new())
-    }
-
     let mut rng: StdRng = rand::make_rng();
 
     let givers = game.players.clone();

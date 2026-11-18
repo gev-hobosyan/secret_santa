@@ -5,6 +5,7 @@ use teloxide::prelude::*;
 use tokio::sync::Mutex;
 use crate::app_state::{AppState, Lang};
 use crate::entity::{game_record, player};
+use crate::entity::player::Model;
 use crate::entity::prelude::{GameRecord, Player};
 use crate::translate::Translate;
 
@@ -35,33 +36,36 @@ pub async fn handle_private_command(bot: Bot, msg: Message, cmd: PrivateCommand,
 
             match res {
                 Ok(player) => {
-                    match player {
-                        Some(player) => {
-                            let mut active: player::ActiveModel = player.into();
+                    if let None = player.clone() {
+                        bot.send_message(user.id, t.get(&lang, "not_playing")).await?;
 
-                            active.wishlist = Set(msg.clone());
+                        return Ok(())
+                    }
 
-                            match active.update(&state.db).await {
-                                Ok(player) => {
-                                    let res = GameRecord::find()
-                                        .filter(game_record::Column::ReceiverId.eq(player.id))
-                                        .all(&state.db)
-                                        .await;
+                    let player = player.unwrap();
 
-                                    if let Ok(records) = res {
-                                        for record in records {
-                                            bot.send_message(ChatId(record.player_id), t.with_args(&lang, "wishlist_updated", vec![&player.username, &msg])).await?;
-                                        }
-                                    }
-                                }
-                                Err(err) => {
-                                    println!("{err:?}");
+                    let mut active: player::ActiveModel = player.into();
 
-                                    bot.send_message(user.id, t.get(&lang, "error")).await?;
+                    active.wishlist = Set(msg.clone());
+
+                    match active.update(&state.db).await {
+                        Ok(player) => {
+                            let res = GameRecord::find()
+                                .filter(game_record::Column::ReceiverId.eq(player.id))
+                                .all(&state.db)
+                                .await;
+
+                            if let Ok(records) = res {
+                                for record in records {
+                                    bot.send_message(ChatId(record.player_id), t.with_args(&lang, "wishlist_updated", vec![&player.username, &msg])).await?;
                                 }
                             }
                         }
-                        None => {}
+                        Err(err) => {
+                            println!("{err:?}");
+
+                            bot.send_message(user.id, t.get(&lang, "error")).await?;
+                        }
                     }
                 }
                 Err(err) => {

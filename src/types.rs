@@ -1,8 +1,7 @@
 use std::collections::HashMap;
-use sea_orm::Iden;
 use teloxide::types::MessageId;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ActiveGame {
     pub message_id: MessageId,
     pub players: HashMap<i64, String>

@@ -7,9 +7,11 @@
     "registration_closed": "🎄Registration is closed. Let the game begin!\n\n🎅🏻Players ({}):\n\n{}\n\nI’ve just sent each of you a private message with the name of the person you’re gifting to.🎁\n\nDidn’t get a message? Send `/start` to me in a private chat and ask an admin to resend it.",
     "whom_to_gift": "🎅🏻You are the Secret Santa for @{}!\n\nKeep it a secret until the big reveal.",
     "admins_only": "⚠️Sorry, this command is only available to group admins.",
-    "not_playing": "❌You aren’t playing.",
+    "not_playing": "❌ You aren’t playing.",
     "error": "❗️Oops! Something went wrong. Please try again in a bit.❗️",
-    "wishlist_updated": "🎅🏻@{} has updated their wishlist!\n\n🎁New wishlist:\n\t{}"
+    "wishlist_updated": "🎅🏻@{} has updated their wishlist!\n\n🎁New wishlist:\n\t{}",
+    "private_playing": "❗️You are playing already",
+    "not_enough": "❗️There must be at least 2 players"
   },
   "am": {
     "info": "🎅🏻Secret Santa բոտ\n\nԵս պատահականորեն զույգերի կբաժանեմ խմբի բոլոր մասնակիցներին, և յուրաքանչյուրը գաղտնի նվեր պետք է գնի մեկ ուրիշի համար:\n\n⚠️Սկսելուց առաջ կխնդրեմ ինձ ադմին դարձնեք, որպեսզի կարողանամ անցկացնել այս խաղը:⚠️\n\nԻնչպես խաղալ:\n\t\t\t\t1. Ինձ անձնական հաղորդագրությամբ ուղարկիր `/start`, այլապես չեմ կարող քեզ գրել։\n\t\t\t\t2. Ադմինը սկսում է խաղը, իսկ բոլորը ուղարկում են \"+\"։\n\t\t\t\t3. Երբ ադմինը փակի գրանցումը, ես անձնական հաղորդագրությամբ կասեմ յուրաքանչյուրին, թե ում համար պետք է նվեր գնի։\n\t\t\t\t4. Գնիր նվերը և գաղտնի պահիր մինչև հանձնումը։🎁\n\nWishlist\n\t\t\t\tԻնձ անձնական հաղորդագրությամբ ուղարկիր `/wishlist` քո ցուցակը ավելացնելու կամ փոխելու համար։ Ես կտեղեկացնեմ քո Secret Santa-ին թե ինչ կուզես ստանալ այս նոր տարի:\n\nՀաճելի խաղ և տոնական տրամադրություն։🎄",
@@ -19,8 +21,10 @@
     "registration_closed": "🎄Գրանցումն ավարտվեց։ Խաղը սկսվում է։\n\n🎅🏻Մասնակիցներ ({}).\n\n{}\n\nԵս յուրաքանչյուր մասնակցին անձնական հաղորդագրություն եմ ուղարկել՝ այն մարդու անունով, ում համար պետք է նվեր գնեք։🎁\n\nՀաղորդագրություն չե՞ք ստացել։ Ինձ անձնական հաղորդագրությամբ ուղարկեք `/start` և խնդրեք ադմինին՝ կրկին ուղարկել։",
     "whom_to_gift": "🎅🏻Դու @{}-ի գաղտնի Ձմեռ պապն ես։\n\nԳաղտնիքը պահիր մինչև նվերների հանձնումը։",
     "admin_only": "⚠️Կներեք, այս հրամանը հասանելի է միայն խմբի ադմիններին։",
-    "not_playing": "❌Դուք դեռ չեք խաղում:",
+    "not_playing": "❌ Դուք դեռ չեք խաղում:",
     "error": "❗️Վայ։ Ինչ-որ սխալ եղավ։ Խնդրում եմ փորձեք մի փոքր անց։❗️",
-    "wishlist_updated": "🎅🏻@{}-ը թարմացրել է իր ցանկությունների ցուցակը:\n\n🎁Նոր ցուցակը:\n{}"
+    "wishlist_updated": "🎅🏻@{}-ը թարմացրել է իր ցանկությունների ցուցակը:\n\n🎁Նոր ցուցակը:\n{}",
+    "private_playing": "❗️Դուք արդեն խաղում եք",
+    "not_enough": "❗️Խաղի համար անհրաջեշտ է գոնե 2 մասնակից"
   }
 }
