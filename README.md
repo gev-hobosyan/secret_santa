@@ -4,15 +4,11 @@
 
 </div>
 
----
-
 A simple Telegram bot to play Secret Santa with friends. Automatic pair choosing wishlists and 2 languages right of the box.
 
 Demo: [Secret Santa Bot](https://t.me/secret_santar_bot)
 
 ## Tech Stack
-
----
 
 | Layer | Technology| 
 | --- | --- |
@@ -22,8 +18,6 @@ Demo: [Secret Santa Bot](https://t.me/secret_santar_bot)
 | Internationalization | Custom simple translator|
 
 ## Getting started
-
----
 
 #### First clone the repository
 
@@ -56,7 +50,5 @@ cargo build --release && ./target/release/secret_santa
 ```
 
 ## Screenshots
-
----
 
 ![screenshot](assets/screenshot.png)
