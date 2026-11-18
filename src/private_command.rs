@@ -5,7 +5,6 @@ use teloxide::prelude::*;
 use tokio::sync::Mutex;
 use crate::app_state::{AppState, Lang};
 use crate::entity::{game_record, player};
-use crate::entity::player::Model;
 use crate::entity::prelude::{GameRecord, Player};
 use crate::translate::Translate;
 
